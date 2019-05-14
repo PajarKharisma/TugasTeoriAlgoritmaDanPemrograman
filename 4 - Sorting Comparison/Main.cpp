@@ -6,11 +6,10 @@ using namespace std;
 
 class MergeSort{
     private:
-        void merge(int *arr, int l, int m, int r){ 
+        void merge(int *arr, int l, int m, int r){
             int i, j, k; 
             int n1 = m - l + 1; 
-            int n2 =  r - m; 
-        
+            int n2 =  r - m;
             int *L = new int[n1];
             int *R = new int[n2]; 
         
@@ -44,7 +43,11 @@ class MergeSort{
                 arr[k] = R[j]; 
                 j++; 
                 k++; 
-            } 
+            }
+            delete L;
+            L = NULL;
+            delete R;
+            R = NULL;
         }
 
     public: 
@@ -129,15 +132,12 @@ int main() {
     QuickSort qs;
 
     int n;
-    int *data;
     int *dataHeap;
     int *dataMerge;
     int *dataQuick;
 
     cout << "Input banyak data : ";
     cin >>  n;
-
-    data = new int[n];
     dataHeap = new int[n];
     dataMerge = new int[n];
     dataQuick = new int[n];
@@ -151,22 +151,28 @@ int main() {
     }
 
     double duration = 0;
-    clock_t startMerge = clock();
-    ms.mergeSort(dataMerge, 0, n-1);
-    duration = (clock() - startMerge) / (double)CLOCKS_PER_SEC;
-    cout << "Waktu Merge Sort : " << duration << " second" << endl;
-
-    duration = 0;
     clock_t startQuick = clock();
     qs.quickSort(dataQuick, 0, n-1);
     duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
     cout << "Waktu Quick Sort : " << duration << " second" << endl;
+    delete dataQuick;
+    dataQuick = NULL;
+
+    duration = 0;
+    clock_t startMerge = clock();
+    ms.mergeSort(dataMerge, 0, n-1);
+    duration = (clock() - startMerge) / (double)CLOCKS_PER_SEC;
+    cout << "Waktu Merge Sort : " << duration << " second" << endl;
+    delete dataMerge;
+    dataMerge = NULL;
 
     duration = 0;
     clock_t startHeap = clock();
 	hs.heapSort(dataHeap, n);
     duration = (clock() - startHeap) / (double)CLOCKS_PER_SEC;
     cout << "Waktu Heap Sort : " << duration << " second" << endl;
+    delete dataHeap;
+    dataHeap = NULL;
 
     getch();
 } 
