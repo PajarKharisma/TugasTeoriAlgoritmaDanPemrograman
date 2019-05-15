@@ -1,8 +1,17 @@
 #include <iostream>
+#include <pthread.h>
 #include <conio.h>
 #include <stdlib.h>
 #include <ctime>
 using namespace std; 
+
+#define NUM_OF_SORTING 3
+
+struct RawData{
+    int *data;
+    int n;
+    int id;
+};
 
 class MergeSort{
     private:
@@ -119,6 +128,41 @@ class HeapSort{
         } 
 };
 
+void *threadSorting(void *input){
+    QuickSort qs;
+    MergeSort ms;
+    HeapSort hs;
+
+    int *data = ((struct RawData*)input)->data;
+    int n = ((struct RawData*)input)->n;
+    int id = ((struct RawData*)input)->id;
+
+    double duration = 0;
+    clock_t startQuick = clock();
+
+    switch (id){
+        case 0:
+            qs.quickSort(data, 0, n-1);
+            duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
+            cout << "Waktu Quick Sort : " << duration << " second" << endl;
+        break;
+        case 1:
+            ms.mergeSort(data, 0, n - 1);
+            duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
+            cout << "Waktu Merge Sort : " << duration << " second" << endl;
+        break;
+        default:
+            hs.heapSort(data, n);
+            duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
+            cout << "Waktu Heap Sort : " << duration << " second" << endl;
+        break;
+    }
+
+    delete data;
+    data = NULL;
+    pthread_exit(NULL);
+}
+
 void printArray(int arr[], int n, string title){
     cout << title << " : ";
 	for (int i=0; i<n; ++i) 
@@ -126,53 +170,36 @@ void printArray(int arr[], int n, string title){
 	cout << endl; 
 } 
 
-int main() { 
-    HeapSort hs;
-    MergeSort ms;
-    QuickSort qs;
-
+int main(int argc, char *argv[]) {
     int n;
-    int *dataHeap;
-    int *dataMerge;
-    int *dataQuick;
-
+    struct RawData *rawData[NUM_OF_SORTING];
     cout << "Input banyak data : ";
     cin >>  n;
-    dataHeap = new int[n];
-    dataMerge = new int[n];
-    dataQuick = new int[n];
+
+    for(int i=0; i<NUM_OF_SORTING; i++){
+        rawData[i] = (struct RawData *)malloc(sizeof(struct RawData));
+        rawData[i]->data = new int[n];
+        rawData[i]->id = i;
+        rawData[i]->n = n;
+    }
 
     for(int i=0; i<n; i++){
         int val = rand()*rand()+1;
         //int val = (rand()%100)+1;
-        dataHeap[i] = val;
-        dataMerge[i] = val;
-        dataQuick[i] = val;
+        rawData[0]->data[i] = val;
+        rawData[1]->data[i] = val;
+        rawData[2]->data[i] = val;
     }
 
-    double duration = 0;
-    clock_t startQuick = clock();
-    qs.quickSort(dataQuick, 0, n-1);
-    duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
-    cout << "Waktu Quick Sort : " << duration << " second" << endl;
-    delete dataQuick;
-    dataQuick = NULL;
-
-    duration = 0;
-    clock_t startMerge = clock();
-    ms.mergeSort(dataMerge, 0, n-1);
-    duration = (clock() - startMerge) / (double)CLOCKS_PER_SEC;
-    cout << "Waktu Merge Sort : " << duration << " second" << endl;
-    delete dataMerge;
-    dataMerge = NULL;
-
-    duration = 0;
-    clock_t startHeap = clock();
-	hs.heapSort(dataHeap, n);
-    duration = (clock() - startHeap) / (double)CLOCKS_PER_SEC;
-    cout << "Waktu Heap Sort : " << duration << " second" << endl;
-    delete dataHeap;
-    dataHeap = NULL;
-
+    pthread_t tid[NUM_OF_SORTING];
+    cout << "START SORTING" << endl;
+    for(int i=0; i<NUM_OF_SORTING; i++){
+        int rc = pthread_create(&tid[i], NULL, threadSorting, (void *)rawData[i]);
+        if(rc){
+            cout << "Error:unable to create thread," << rc << endl;
+            exit(-1);
+        }
+    }
+    pthread_exit(NULL);
     getch();
 } 
