@@ -138,22 +138,22 @@ void *threadSorting(void *input){
     int id = ((struct RawData*)input)->id;
 
     double duration = 0;
-    clock_t startQuick = clock();
+    clock_t start = clock();
 
     switch (id){
         case 0:
             qs.quickSort(data, 0, n-1);
-            duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
+            duration = (clock() - start) / (double)CLOCKS_PER_SEC;
             cout << "Waktu Quick Sort : " << duration << " second" << endl;
         break;
         case 1:
             ms.mergeSort(data, 0, n - 1);
-            duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
+            duration = (clock() - start) / (double)CLOCKS_PER_SEC;
             cout << "Waktu Merge Sort : " << duration << " second" << endl;
         break;
         default:
             hs.heapSort(data, n);
-            duration = (clock() - startQuick) / (double)CLOCKS_PER_SEC;
+            duration = (clock() - start) / (double)CLOCKS_PER_SEC;
             cout << "Waktu Heap Sort : " << duration << " second" << endl;
         break;
     }
