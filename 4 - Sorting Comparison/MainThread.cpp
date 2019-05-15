@@ -1,6 +1,6 @@
 #include <iostream>
 #include <pthread.h>
-#include <conio.h>
+#include <conio.h> //delete this line if you use linux
 #include <stdlib.h>
 #include <ctime>
 using namespace std; 
@@ -177,7 +177,8 @@ int main(int argc, char *argv[]) {
     cin >>  n;
 
     for(int i=0; i<NUM_OF_SORTING; i++){
-        rawData[i] = (struct RawData *)malloc(sizeof(struct RawData));
+        //rawData[i] = (struct RawData *)malloc(sizeof(struct RawData));
+        rawData[i] = new RawData();
         rawData[i]->data = new int[n];
         rawData[i]->id = i;
         rawData[i]->n = n;
@@ -200,6 +201,6 @@ int main(int argc, char *argv[]) {
             exit(-1);
         }
     }
+    getch(); //delete this line if you use linux
     pthread_exit(NULL);
-    getch();
 } 

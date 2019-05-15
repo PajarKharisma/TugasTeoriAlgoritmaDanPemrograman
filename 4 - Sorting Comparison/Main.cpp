@@ -1,5 +1,5 @@
 #include <iostream>
-#include <conio.h>
+#include <conio.h> //delete this line if you use linux
 #include <stdlib.h>
 #include <ctime>
 using namespace std; 
@@ -174,5 +174,5 @@ int main() {
     delete dataHeap;
     dataHeap = NULL;
 
-    getch();
+    getch(); //delete this line if you use linux
 } 
