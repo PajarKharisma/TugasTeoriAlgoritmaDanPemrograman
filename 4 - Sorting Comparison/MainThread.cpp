@@ -1,6 +1,6 @@
 #include <iostream>
 #include <pthread.h>
-#include <conio.h> //delete this line if you use linux
+//#include <conio.h> //delete this line if you use linux
 #include <stdlib.h>
 #include <ctime>
 using namespace std; 
@@ -201,6 +201,6 @@ int main(int argc, char *argv[]) {
             exit(-1);
         }
     }
-    getch(); //delete this line if you use linux
+    //getch(); //delete this line if you use linux
     pthread_exit(NULL);
 } 
