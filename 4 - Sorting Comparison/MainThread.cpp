@@ -53,9 +53,9 @@ class MergeSort{
                 j++; 
                 k++; 
             }
-            delete L;
+            delete[] L;
             L = NULL;
-            delete R;
+            delete[] R;
             R = NULL;
         }
 
@@ -158,7 +158,7 @@ void *threadSorting(void *input){
         break;
     }
 
-    delete data;
+    delete[] data;
     data = NULL;
     pthread_exit(NULL);
 }
