@@ -1,7 +1,4 @@
-**.txt
-**.exe
-**.xlsx
-**.docx
-*.txt
-*.exe
+*.*
+**.*
+!**.cpp
 .vscode/

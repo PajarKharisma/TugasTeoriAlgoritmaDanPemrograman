@@ -33,7 +33,7 @@ void qsort(int *x, int aw, int ak){
 	}
 }
 
-void merge(int *x,int aw,int mid,int ak){ 
+/* void merge(int *x,int aw,int mid,int ak){ 
 	int *z = new int[ak+1];
 	int i,j,k,l; 
 	i=aw; 
@@ -75,9 +75,9 @@ void mergesort(int *x,int aw,int ak){
 		mergesort(x,mid+1,ak); 
 		merge(x,aw,mid,ak); 
 	} 
-}
+} */
 
-/* void merge(int *arr, int l, int m, int r){
+void merge(int *arr, int l, int m, int r){
 	int i, j, k; 
 	int n1 = m - l + 1; 
 	int n2 =  r - m;
@@ -128,7 +128,7 @@ void mergesort(int *arr, int l, int r){
 			mergesort(arr, m+1, r); 
 			merge(arr, l, m, r); 
 	} 
-} */
+}
 
 void create_heap(int *a, int n){
 	int q, i, j, key;
@@ -224,15 +224,7 @@ void printData(int *data, int n){
 
 int main(){
 	int *x, n;
-	n = 1000000;
-/* 	x = new int[n];
-	generateData(x, n);
-	restartTimer();
-	mergesort(x, 0, n-1);
-	qsort(x,0,n-1);
-	sort_heap(x, n);
-	printData(x, n);
-	printTimer(); */
+	n = 320000000;
 	for(int i=0; i<3; i++){
 		x = new int[n];
 		generateData(x, n);

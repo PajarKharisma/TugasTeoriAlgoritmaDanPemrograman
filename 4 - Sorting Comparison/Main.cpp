@@ -63,18 +63,20 @@ class MergeSort{
 
 class QuickSort{
     private:
-        int partition (int *arr, int low, int high){ 
+        int partition (int *data, int low, int high){
             int pivot = low;
-            int i = low;
+            int i = low+1;
             int j = high;
             while(j > i){
-                if (arr[j] <= arr[pivot]){ 
-                    i++;
-                    swap(arr[i], arr[j]); 
+                while(data[j] >= data[pivot] && j != i){
+                    j--;
                 }
-                j--;
+                while(data[i] <= data[pivot] && j != i){
+                    i++;
+                }
+                swap(data[i], data[j]);
             }
-            swap(arr[i], arr[pivot]);
+            swap(data[pivot], data[i]);
             return i; 
         }
 
@@ -131,7 +133,12 @@ int main() {
     MergeSort ms;
     QuickSort qs;
 
-    int n;
+    int arr[] = {71, 70, 98, 25, 35, 73, 27, 8, 84, 20, 12, 28};
+    int n =sizeof(arr)/sizeof(arr[0]);
+    qs.quickSort(arr, 0, n-1);
+    printArray(arr, n, "Quick : ");
+
+/*     int n;
     int *dataHeap;
     int *dataMerge;
     int *dataQuick;
@@ -150,6 +157,7 @@ int main() {
         dataQuick[i] = val;
     }
 
+    
     double duration = 0;
     clock_t startQuick = clock();
     qs.quickSort(dataQuick, 0, n-1);
@@ -172,7 +180,7 @@ int main() {
     duration = (clock() - startHeap) / (double)CLOCKS_PER_SEC;
     cout << "Waktu Heap Sort : " << duration << " second" << endl;
     delete dataHeap;
-    dataHeap = NULL;
+    dataHeap = NULL; */
 
     getch(); //delete this line if you use linux
 } 

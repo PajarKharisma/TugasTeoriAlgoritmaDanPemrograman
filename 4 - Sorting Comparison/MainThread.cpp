@@ -72,18 +72,20 @@ class MergeSort{
 
 class QuickSort{
     private:
-        int partition (int *arr, int low, int high){ 
+        int partition (int *data, int low, int high){
             int pivot = low;
-            int i = low;
+            int i = low+1;
             int j = high;
             while(j > i){
-                if (arr[j] <= arr[pivot]){ 
-                    i++;
-                    swap(arr[i], arr[j]); 
+                while(data[j] >= data[pivot] && j != i){
+                    j--;
                 }
-                j--;
+                while(data[i] <= data[pivot] && j != i){
+                    i++;
+                }
+                swap(data[i], data[j]);
             }
-            swap(arr[i], arr[pivot]);
+            swap(data[pivot], data[i]);
             return i; 
         }
 
